@@ -1,0 +1,17 @@
+# Rotate gluster geo-rep master server logs
+/var/log/glusterfs/geo-replication/*/*.log {
+  weekly
+  rotate 52
+  missingok
+  compress
+  delaycompress
+  notifempty
+  sharedscripts
+  postrotate
+  for pid in /etc/glusterd/geo-replication/*/*.pid; do
+    if [ -e ${pid} ]; then
+      /usr/bin/kill -HUP ${pid} > /dev/null 2>&1 || true
+    fi
+  done
+  endscript
+}

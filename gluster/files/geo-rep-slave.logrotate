@@ -1,0 +1,16 @@
+# Rotate slave geo-rep server logs
+
+# THIS DOESN'T FULLY WORK YET, killall gsyncd.py is invalid postrotate
+
+/var/log/glusterfs/geo-replication-slaves/*.log {
+  weekly
+  rotate 52
+  missingok
+  compress
+  delaycompress
+  notifempty
+  sharedscripts
+  postrotate
+  : || true #This needs a working HUP against the slave pids
+  endscript
+}
